@@ -9,9 +9,30 @@ Plugin desenvolvido para Fidelidade usando Tensor Flow lite para fazer o carrega
 
 ## Installing
 
-Para instalar no Android deve seguir o modelo abaixo passando o minSdkVersion = 22 e targetSdkVersion = 28. Os valores informados nas variaveís são as versões de compatibilidade  para usar a Biblioteca do TensorFlow Lite
+Para instalar no Cordova, o Android deve seguir o modelo abaixo passando o minSdkVersion = 22 e targetSdkVersion = 28. Os valores informados nas variaveís são as versões de compatibilidade  para usar a Biblioteca do TensorFlow Lite
 
     $ cordova plugin add https://github.com/Paulimjr/tensorflow-fidelidade-plugin.git --variable ANDROID-MINSDKVERSION=22, --variable ANDROID-TARGETSDKVERSION=28
+
+## Installing on OutSystems Platform
+
+Para instalar na plataforma da OutSystems basta seguir o modelo abaixo
+  
+    {
+    "plugin" :{
+        "url": "https://github.com/Paulimjr/tensorflow-fidelidade-plugin.git",
+        "variables": [
+            {
+                "name": "ANDROID-MINSDKVERSION", 
+                "value": "22"
+            },
+            
+            {
+                "name": "ANDROID-TARGETSDKVERSION",
+                "value": "28"
+            }
+        ]
+    }
+  }
 
 
 ## Usage
