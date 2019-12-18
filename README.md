@@ -1,7 +1,7 @@
-TensorFlow Fideldide Plugin
+TensorFlow Fidelidade Plugin
 ==============
 
-Plugind desenvolvido para Fidelidade usando Tensor Flow lite para fazer o carregamento e execução de modelos pre-definidos pela Fidelidade.
+Plugin desenvolvido para Fidelidade usando Tensor Flow lite para fazer o carregamento e execução de modelos pre-definidos pela Fidelidade.
 
 ## Supported Platforms
 * Android
