@@ -1,4 +1,4 @@
-TensorFlow Fideldide Plugin
+TensorFlow Fidelidade Plugin
 ==============
 
 Este plugin foi desenvolvido para a Fidelidade utiliznado a biblioteca do Google Tensor Flow lite para fazer o carregamento e execução de modelos pre-definidos pela Fidelidade para identificar Qualidade de Imagens e Enquadramento.
