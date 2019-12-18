@@ -1,11 +1,7 @@
-Cookie Emperor
+TensorFlow Fideldide Plugin
 ==============
 
-Since cordova apps should not live without the Crosswalk Project anymore and the InAppBrowser-plugin does not use the XWalk webview sharing cookies is not that easy. Setting up cookies via
-document.cookie does not provide the expected result and thus the CookieMaster was born. Since CookieMaster is no longer maintained and cannot be build with android sdk < 23 (without gradle hacks)
-I came to the conclusion to fork this project and keep it maintained to a certain level.
-
-Feel free to contribute, pull-requests will be reviewed.
+Plugind desenvolvido para Fidelidade usando Tensor Flow lite para fazer o carregamento e execução de modelos pre-definidos pela Fidelidade.
 
 ## Supported Platforms
 * Android
@@ -13,48 +9,29 @@ Feel free to contribute, pull-requests will be reviewed.
 
 ## Installing
 
-Install with Cordova CLI
+Para instalar no Android deve seguir o modelo abaixo passando o minSdkVersion = 22 e targetSdkVersion = 28. Os valores informados nas variaveís são as versões de compatibilidade  para usar a Biblioteca do TensorFlow Lite
 
-    $ cordova plugin add https://github.com/rtk/cordova-cookie-emperor.git
+    $ cordova plugin add https://github.com/Paulimjr/tensorflow-fidelidade-plugin.git --variable ANDROID-MINSDKVERSION=22, --variable ANDROID-TARGETSDKVERSION=28
+
 
 ## Usage
-A global object cookieEmperor will be bound to the window object.
+Para executar o plugin na plataforma da OutSytems basta seguir o modelo abaixo
 
-### Get cookie value
+### Load model
 ```javascript
-window.cookieEmperor.getCookie('http://<some host>:<some port>', '<cookie name>', function(data) {
-  console.log(data.cookieValue);
-}, function(error) {
-  if (error) {
-    console.log('error: ' + error);
-  }
-});
-```
-### Set cookie value
-```javascript
-window.cookieEmperor.setCookie('http://<some host>:<some port>', '<cookie name>', '<cookie value>',
-    function() {
-        console.log('A cookie has been set');
+/**
+ *  modelName o nome do modelo que deseja executar no plugin (Observações: os modelos já estão definidos dentro do plugin)
+ *  imageBase64 a String com a imagem em base64 já enviar pela OutSystem utilize algum converter na Plataforma para fazer o mesmo.
+ * /
+cordova.plugins.TensorFlowFidelidadePlugin.loadModel(modelName, imageBase64,
+    function success(data) {
+        alert("Result: "+data.value);
     },
-    function(error) {
-        console.log('Error setting cookie: '+error);
-    });
-```
-The cookie value should be formatted just like a regular <code>document.cookie</code> value.
-
-### Clear all cookies
-```javascript
-window.cookieEmperor.clearAll(
-    function() {
-    console.log('Cookies have been cleared');
-    },
-    function() {
-        console.log('Cookies could not be cleared');
-    });
+    function error(data) {
+        alert("Error: "+data);
+    }
+);
 ```
 
 ## License
 This plugin is distributed under the MIT License.
-
-## Thanks to
-This plugin is forked from https://github.com/kristianhristov/cordova-cookie-master
