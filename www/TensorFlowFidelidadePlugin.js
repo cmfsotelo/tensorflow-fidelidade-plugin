@@ -5,7 +5,7 @@ var exec = require('cordova/exec');
  * 
  *  Use can see this example below:
  * 
- *      var imageBase64 = "IMG_BASE_64_HERE";
+ *      var imageBase64 = "IMG_BASE";
  *      var modelName = "example_model";
  * 
         cordova.plugins.TensorFlowFidelidadePlugin.loadModel(modelName, imageBase64,
