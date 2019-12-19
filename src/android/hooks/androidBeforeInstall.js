@@ -1,20 +1,27 @@
-module.exports = function(ctx) {
-    var fs = ctx.requireCordovaModule('fs'),
-    path = ctx.requireCordovaModule('path'),
-    xml = ctx.requireCordovaModule('cordova-common').xmlHelpers;
+#!/usr/bin/env node
 
-    var manifestPath = path.join(ctx.opts.projectRoot, 'platforms/android/app/src/main/AndroidManifest.xml');
-    var doc = xml.parseElementtreeSync(manifestPath);
-    if (doc.getroot().tag !== 'manifest') {
-        throw new Error(manifestPath + ' has incorrect root node name (expected "manifest")');
+var fs = require('fs'), path = require('path');
+
+module.exports = function(context) {
+    console.log("========== Executing hook androidBeforeInstall.js  ==========");
+    var platformRoot = path.join(context.opts.projectRoot, 'platforms/android');
+    var manifestFile = path.join(platformRoot, 'app/src/main/AndroidManifest.xml');
+  
+    if (fs.existsSync(manifestFile)) {
+  
+      fs.readFile(manifestFile, 'utf8', function (err,data) {
+        if (err) {
+          throw new Error('Unable to find AndroidManifest.xml: ' + err);
+        }
+  
+          var tagValue = 'android:icon';
+          var result = data.replace(/<application/g, '<application tools:replace="' + tagValue + '"');
+          console.log("========== Updating the AndroidManifest.xml on Android ==========");
+  
+          fs.writeFile(manifestFile, result, 'utf8', function (err) {
+            if (err) throw new Error('Unable to write into AndroidManifest.xml: ' + err);
+          });
+
+      });
     }
-
-    //adds the tools namespace to the root node
-    doc.getroot().attrib['xmlns:tools'] = 'http://schemas.android.com/tools';
-    //add tools:replace in the application node
-    doc.getroot().find('./application').attrib['tools:replace'] = 'android:icon';
-
-    //write the manifest file
-    fs.writeFileSync(manifestPath, doc.write({indent: 4}), 'utf-8');
-
-};
+  };

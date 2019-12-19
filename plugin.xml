@@ -30,10 +30,11 @@
         <preference name="android-minSdkVersion" value="22"/>
         <preference name="android-targetSdkVersion" value="28"/>
 
-        <config-file target="AndroidManifest.xml" parent="/manifest">
-            
-            <uses-sdk android:minSdkVersion="22" android:targetSdkVersion="28" />
+        <!-- Hook to add tools:replace="android:icon" in AndroidManifest.xml -->
+        <hook type="after_plugin_add" src="src/android/hooks/androidBeforeInstall.js" /> 
 
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-sdk android:minSdkVersion="22" android:targetSdkVersion="28" />
             <uses-permission android:name="android.permission.INTERNET" />
             <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -46,9 +47,10 @@
             </feature>
         </config-file>
 
+        <!-- 
         <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
             <application tools:replace="android:icon" />
-        </edit-config>
+        </edit-config> -->
  
         <source-file src="src/android/TensorFlowFidelidadePlugin.java" target-dir="src/com/tensorflow/fidelidade/plugin" />
 		<framework src="src/android/lib/tensorflow.gradle" custom="true" type="gradleReference" />  
@@ -64,8 +66,7 @@
         <source-file src="src/android/quality_model.tfbundle/quality_model.tflite" target-dir="app/src/main/assets/quality_model.tfbundle"/>
         <source-file src="src/android/quality_model.tfbundle/assets/labels.txt" target-dir="app/src/main/assets/quality_model.tfbundle/assets"/>
         
-         <!-- Hook to add tools:replace="android:icon" in AndroidManifest.xml 
-        <hook type="after_platform_add" src="scripts/androidBeforeInstall.js" /> -->
+         
 
     </platform>          
 </plugin>
