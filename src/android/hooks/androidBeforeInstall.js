@@ -16,12 +16,21 @@ module.exports = function(context) {
   
           var tagValue = 'android:icon';
           var result = data.replace(/<application/g, '<application tools:replace="' + tagValue + '"');
+          
           console.log("========== Updating the AndroidManifest.xml on Android ==========");
   
           fs.writeFile(manifestFile, result, 'utf8', function (err) {
             if (err) throw new Error('Unable to write into AndroidManifest.xml: ' + err);
           });
 
+          var schema = 'http://schemas.android.com/tools';
+          var addToolsSchema = result.replace(/<manifest/g, '<manifest xmlns:tools="'+schema+'"');
+          console.log(addToolsSchema);
+
+          fs.writeFile(manifestFile, addToolsSchema, 'utf8', function (err) {
+            if (err) throw new Error('Unable to write into AndroidManifest.xml: ' + err);
+          });
+        
       });
     }
   };
