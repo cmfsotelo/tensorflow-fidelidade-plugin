@@ -152,7 +152,6 @@ public class TensorFlowFidelidadePlugin extends CordovaPlugin {
                 this.callbackContext.error("Error to resize the image!");
             }
         } catch (Exception e) {
-            e.printStackTrace();
             Log.e(TAG, e.getMessage());
             this.callbackContext.error(e.getMessage());
         }
@@ -185,7 +184,6 @@ public class TensorFlowFidelidadePlugin extends CordovaPlugin {
                 }
 
             } catch (TIOModelException | JSONException e) {
-                e.printStackTrace();
                 this.callbackContext.error(e.getMessage());
             }
         });
@@ -203,7 +201,7 @@ public class TensorFlowFidelidadePlugin extends CordovaPlugin {
             try {
                 result = (float[]) model.runOn(imageResized);
             } catch (TIOModelException e) {
-                e.printStackTrace();
+                this.callbackContext.error(e.getMessage());
             }
 
             // Build a PriorityQueue of the predictions
@@ -229,7 +227,6 @@ public class TensorFlowFidelidadePlugin extends CordovaPlugin {
                 this.callbackContext.success(object);
 
             } catch (JSONException e) {
-                e.printStackTrace();
                 this.callbackContext.error(e.getMessage());
             }
 
