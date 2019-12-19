@@ -11,10 +11,7 @@ import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.AbstractMap;
 import java.util.Map;
 import java.util.PriorityQueue;
@@ -27,10 +24,9 @@ import ai.doc.tensorio.TIOModel.TIOModelException;
 
 /**
  * OutSystems Experts Team
- *
+ * <p>
  * Author: Paulo Cesar
  * Date: 18-12-2019
- *
  */
 public class TensorFlowFidelidadePlugin extends CordovaPlugin {
 
@@ -53,10 +49,9 @@ public class TensorFlowFidelidadePlugin extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
-       this.callbackContext = callbackContext;
+        this.callbackContext = callbackContext;
 
-        if (action != null && action.equalsIgnoreCase(ACTION_LOAD_MODEL)){
-            //Call the load model method.
+        if (action != null && action.equalsIgnoreCase(ACTION_LOAD_MODEL)) {
 
             if (args != null && args.length() > 0) {
 
@@ -69,11 +64,11 @@ public class TensorFlowFidelidadePlugin extends CordovaPlugin {
                     this.callbackContext.error("Invalid or not found action!");
                 }
 
-            } else  {
+            } else {
                 this.callbackContext.error("The arguments can not be null!");
             }
 
-        } else  {
+        } else {
             this.callbackContext.error("Invalid or not found action!");
         }
 
@@ -101,10 +96,10 @@ public class TensorFlowFidelidadePlugin extends CordovaPlugin {
 
             //Convert base64 to bitmap image
             Bitmap image = this.convertBase64ToBitmap(imageBase64);
-            
+
             // Model loaded success -- Resize Image
             Bitmap imageResized;
-            
+
 
             // Switch to know what is the model will be executed.
             switch (modelName) {
@@ -127,8 +122,7 @@ public class TensorFlowFidelidadePlugin extends CordovaPlugin {
             }
 
         } catch (Exception e) {
-            Log.v(TAG, e.getMessage());
-            this.callbackContext.error(e.getMessage());
+            this.callbackContext.error("Error to load a model with name " + modelName);
         }
 
     }
@@ -143,9 +137,6 @@ public class TensorFlowFidelidadePlugin extends CordovaPlugin {
         try {
 
             if (img != null) {
-                // Resizing the image
-                // InputStream bitmap = this.cordova.getActivity().getAssets().open("carroFrente4.jpg");
-                // Bitmap bMap = BitmapFactory.decodeStream(img);
                 return Bitmap.createScaledBitmap(img, resizeImage, resizeImage, false);
 
             } else {
@@ -161,11 +152,7 @@ public class TensorFlowFidelidadePlugin extends CordovaPlugin {
 
 
     private void executeQualityModel(Bitmap imageResized) {
-        this.mHandlerThread.start();
-        this.mHandler = new Handler(mHandlerThread.getLooper());
-        JSONObject object = new JSONObject();
-
-        this.mHandler.post(() -> {
+        this.cordova.getThreadPool().execute(() -> {
             // Run the model on the input
             float[] result;
 
@@ -174,34 +161,27 @@ public class TensorFlowFidelidadePlugin extends CordovaPlugin {
 
                 if (result.length > 0) {
                     if (result[0] > result[1]) {
-                        object.put("value", false);
+                        callbackContext.success(String.valueOf(false));
                     } else {
-                        object.put("value", true);
+                        callbackContext.success(String.valueOf(true));
                     }
-
-                    Log.v(TAG, "Success: "+object.toString());
-                    this.callbackContext.success(object);
                 }
 
-            } catch (TIOModelException | JSONException e) {
-                this.callbackContext.error(e.getMessage());
+            } catch (Exception e) {
+                callbackContext.error("Error to load or execute the quality model");
             }
         });
     }
 
     private void executeFrameworkModel(Bitmap imageResized) {
-        this.mHandlerThread.start();
-        this.mHandler = new Handler(mHandlerThread.getLooper());
-        JSONObject object = new JSONObject();
-
-        this.mHandler.post(() -> {
+        this.cordova.getThreadPool().execute(() -> {
             // Run the model on the input
             float[] result = new float[0];
 
             try {
                 result = (float[]) model.runOn(imageResized);
             } catch (TIOModelException e) {
-                this.callbackContext.error(e.getMessage());
+                callbackContext.error("Error to execute the framework model");
             }
 
             // Build a PriorityQueue of the predictions
@@ -218,18 +198,14 @@ public class TensorFlowFidelidadePlugin extends CordovaPlugin {
 
                     Map.Entry<Integer, Float> e = pq.poll();
 
-                    if (e != null)
-                        object.put("value", labels[e.getKey()]);
-
-                    Log.v(TAG, "Success: "+object.toString());
+                    if (e != null) {
+                        callbackContext.success(labels[e.getKey()]);
+                    }
                 }
 
-                this.callbackContext.success(object);
-
-            } catch (JSONException e) {
-                this.callbackContext.error(e.getMessage());
+            } catch (Exception e) {
+                callbackContext.error("Error to load or execute the framework model");
             }
-
         });
     }
 }
