@@ -49,3 +49,5 @@ subprojects {
             }
     }
 }
+
+ext.cdvMinSdkVersion=22
