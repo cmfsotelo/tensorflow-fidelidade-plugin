@@ -26,11 +26,11 @@
         <source-file src="./src/ios/TensorFlowFidelidadePlugin.mm" />
         <framework src="TensorIO/TFLite" type="podspec" spec="~> 0.9.6" />
         
-        <!-- Resources iOS -->
+        <!-- Resources iOS (already exists on bundle folders)
         <resource-file src="./src/ios/foto.jpg" target="./foto.jpg"/>
         <resource-file src="./src/bundles/enq_model.tfbundle"/>
         <resource-file src="./src/bundles/quality_model.tfbundle"/>
-        <resource-file src="./src/bundles/unet_vehicle_model.tfbundle"/>
+        <resource-file src="./src/bundles/unet_vehicle_model.tfbundle"/> -->
     </platform>
     
     <!-- android -->
