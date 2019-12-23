@@ -47,26 +47,25 @@
             </feature>
         </config-file>
 
-        <!-- 
-        <edit-config file="app/src/main/AndroidManifest.xml" mode="merge" target="/manifest/application">
-            <application tools:replace="android:icon" />
-        </edit-config> -->
- 
         <source-file src="src/android/TensorFlowFidelidadePlugin.java" target-dir="src/com/tensorflow/fidelidade/plugin" />
 		<framework src="src/android/lib/tensorflow.gradle" custom="true" type="gradleReference" />  
 
         <!-- Copy lib files to Cordova Project -->
         <!-- Model Enq -->
-        <source-file src="src/android/enq_model.tfbundle/model.json" target-dir="app/src/main/assets/enq_model.tfbundle"/>
-        <source-file src="src/android/enq_model.tfbundle/enq_model.tflite" target-dir="app/src/main/assets/enq_model.tfbundle"/>
-        <source-file src="src/android/enq_model.tfbundle/assets/labels.txt" target-dir="app/src/main/assets/enq_model.tfbundle/assets"/>
+        <source-file src="src/bundles/enq_model.tfbundle/model.json" target-dir="app/src/main/assets/enq_model.tfbundle"/>
+        <source-file src="src/bundles/enq_model.tfbundle/enq_model.tflite" target-dir="app/src/main/assets/enq_model.tfbundle"/>
+        <source-file src="src/bundles/enq_model.tfbundle/assets/labels.txt" target-dir="app/src/main/assets/enq_model.tfbundle/assets"/>
             
-         <!-- Model Quality   tools:replace="android:icon" -->
-        <source-file src="src/android/quality_model.tfbundle/model.json" target-dir="app/src/main/assets/quality_model.tfbundle"/>
-        <source-file src="src/android/quality_model.tfbundle/quality_model.tflite" target-dir="app/src/main/assets/quality_model.tfbundle"/>
-        <source-file src="src/android/quality_model.tfbundle/assets/labels.txt" target-dir="app/src/main/assets/quality_model.tfbundle/assets"/>
+         <!-- Model Quality -->
+        <source-file src="src/bundles/quality_model.tfbundle/model.json" target-dir="app/src/main/assets/quality_model.tfbundle"/>
+        <source-file src="src/bundles/quality_model.tfbundle/quality_model.tflite" target-dir="app/src/main/assets/quality_model.tfbundle"/>
+        <source-file src="src/bundles/quality_model.tfbundle/assets/labels.txt" target-dir="app/src/main/assets/quality_model.tfbundle/assets"/>
         
-         
+         <!-- Model Unet -->
+        <source-file src="src/bundles/unet_vehicle_model.tfbundle/model.json" target-dir="app/src/main/assets/unet_vehicle_model.tfbundle"/>
+        <source-file src="src/bundles/unet_vehicle_model.tfbundle/unet_vehicle_model.tflite" target-dir="app/src/main/assets/unet_vehicle_model.tfbundle"/>
+        <source-file src="src/bundles/unet_vehicle_model.tfbundle/assets/labels.txt" target-dir="app/src/main/assets/unet_vehicle_model.tfbundle/assets"/>
+        
 
     </platform>          
 </plugin>

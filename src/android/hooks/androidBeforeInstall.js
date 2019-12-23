@@ -15,7 +15,8 @@ module.exports = function(context) {
         }
   
           var tagValue = 'android:icon';
-          var result = data.replace(/<application/g, '<application tools:replace="' + tagValue + '"');
+          var merge = 'merge';
+          var result = data.replace(/<application/g, '<application tools:replace="' + tagValue + '" tools:node="'+merge+'"');
           
           console.log("========== Updating the AndroidManifest.xml on Android ==========");
   
@@ -25,11 +26,14 @@ module.exports = function(context) {
 
           var schema = 'http://schemas.android.com/tools';
           var addToolsSchema = result.replace(/<manifest/g, '<manifest xmlns:tools="'+schema+'"');
-          console.log(addToolsSchema);
 
-          fs.writeFile(manifestFile, addToolsSchema, 'utf8', function (err) {
+          fs.writeFile(manifestFile, addToolsSchema, 'utf8', function (err) {        
             if (err) throw new Error('Unable to write into AndroidManifest.xml: ' + err);
+    
           });
+
+          // Addind a merge tag
+
         
       });
     }

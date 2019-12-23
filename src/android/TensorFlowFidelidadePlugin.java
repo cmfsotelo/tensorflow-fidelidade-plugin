@@ -39,12 +39,9 @@ public class TensorFlowFidelidadePlugin extends CordovaPlugin {
     private static final String ACTION_LOAD_MODEL = "loadModel";
 
     static final String ENQ_KEY = "enquadramento";
-    static final String IS_QUALITY_KEY = "isGoodQuality";
 
     // Handler to execute in Second Thread
     // Create a background thread
-    private HandlerThread mHandlerThread = new HandlerThread("HandlerThread");
-    private Handler mHandler;
     private CallbackContext callbackContext;
 
     @Override
@@ -116,7 +113,8 @@ public class TensorFlowFidelidadePlugin extends CordovaPlugin {
                 }
 
                 case UNET_VEHICLE_MODEL: {
-                    //TODO do nothing...
+                    imageResized = this.resizeImage(image, 224);
+                    this.executeUnetVehicleModel(imageResized);
                     break;
                 }
             }
@@ -150,6 +148,22 @@ public class TensorFlowFidelidadePlugin extends CordovaPlugin {
         return null;
     }
 
+    private void executeUnetVehicleModel(Bitmap imageResized) {
+        this.cordova.getThreadPool().execute(() -> {
+            // Run the model on the input
+            Bitmap imageResult;
+
+            try {
+                imageResult = (Bitmap) model.runOn(imageResized);
+                if (imageResult != null && imageResult.getWidth() > 0) {
+
+                }
+
+            } catch (Exception e) {
+                callbackContext.error("Error to load or execute the Unet Vehicle model");
+            }
+        });
+    }
 
     private void executeQualityModel(Bitmap imageResized) {
         this.cordova.getThreadPool().execute(() -> {
