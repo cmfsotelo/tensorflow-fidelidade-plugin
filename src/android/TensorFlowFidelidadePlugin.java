@@ -2,8 +2,6 @@ package com.tensorflow.fidelidade.plugin;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Handler;
-import android.os.HandlerThread;
 import android.util.Base64;
 import android.util.Log;
 
@@ -84,7 +82,7 @@ public class TensorFlowFidelidadePlugin extends CordovaPlugin {
             TIOModelBundle bundle = manager.bundleWithId(modelName);
 
             if (bundle == null) {
-                this.callbackContext.error("Model can not find to load!");
+                this.callbackContext.error("Model not found!");
                 return;
             }
 
@@ -133,7 +131,6 @@ public class TensorFlowFidelidadePlugin extends CordovaPlugin {
     private synchronized Bitmap resizeImage(Bitmap img, int resizeImage) {
 
         try {
-
             if (img != null) {
                 return Bitmap.createScaledBitmap(img, resizeImage, resizeImage, false);
 
@@ -150,16 +147,10 @@ public class TensorFlowFidelidadePlugin extends CordovaPlugin {
 
     private void executeUnetVehicleModel(Bitmap imageResized) {
         this.cordova.getThreadPool().execute(() -> {
-            // Run the model on the input
-            Bitmap imageResult;
-
             try {
-                imageResult = (Bitmap) model.runOn(imageResized);
-                if (imageResult != null && imageResult.getWidth() > 0) {
-
-                }
-
+                float [] result = (float[]) model.runOn(imageResized);
             } catch (Exception e) {
+                e.printStackTrace();
                 callbackContext.error("Error to load or execute the Unet Vehicle model");
             }
         });

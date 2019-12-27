@@ -1,27 +1,21 @@
 {
   "name": "quality_model",
-  "details": "Enquadramento",
-  "version": "1",
+  "details": "Qualidade",
   "id": "quality_model",
+  "version": "1",
   "author": "Fidelidade",
   "license": "MIT",
   "model": {
     "file": "quality_model.tflite",
     "quantized": false,
     "backend": "tflite",
-    "modes": [
-      "predict"
-    ]
+    "modes": ["predict"]
   },
   "inputs": [
     {
       "name": "input",
       "type": "image",
-      "shape": [
-        224,
-        224,
-        3
-      ],
+      "shape": [224,224,3],
       "format": "RGB"
     }
   ],
@@ -29,11 +23,7 @@
     {
       "name": "output",
       "type": "array",
-      "shape": [
-        1,
-        2
-      ],
-      "labels": "labels.txt"
+      "shape": [1,2],
     }
   ]
 }
