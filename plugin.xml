@@ -16,6 +16,9 @@
      <!-- ios -->
     <platform name="ios">
 
+        <!-- Install Dependencies -->
+        <dependency id="cordova-cocoapods-plugin" url="https://github.com/andregrillo/cordova-cocoapods-plugin.git"/>
+
         <!-- TensorIO & TensorFlow Lite SDK -->
         <framework src="TensorIO/TFLite" type="podspec"/>
 
