@@ -19,16 +19,16 @@
         <!-- Install Dependencies 
         <dependency id="cordova-cocoapods-plugin" url="https://github.com/andregrillo/cordova-cocoapods-plugin.git"/>-->
 
+        <!-- TensorIO & TensorFlow Lite SDK 
+        <framework src="TensorIO/TFLite" type="podspec"/>-->
+
         <podspec>
           <config>
           </config>
-          <pods use-frameworks="true">
-            <pod name="TensorIO/TFLite" spec="~> 0.9.6" />
+          <pods>
+            <pod name="TensorIO/TFLite" options="'~> 0.9.6', :modular_headers => true" />
           </pods>
         </podspec>
-
-        <!-- TensorIO & TensorFlow Lite SDK 
-        <framework src="TensorIO/TFLite" type="podspec"/>-->
 
         <!-- iOS Plugin -->
         <source-file src="./src/ios/TensorFlowFidelidadePlugin.mm" />
