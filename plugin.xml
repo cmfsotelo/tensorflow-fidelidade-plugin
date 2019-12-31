@@ -31,7 +31,7 @@
         </podspec>
 
         <!-- iOS Plugin -->
-        <source-file src="./src/ios/TensorFlowFidelidadePlugin.mm" />
+        <source-file src="./src/ios/TensorFlowFidelidadePlugin.m" />
          
         <!-- Resources iOS -->
         <resource-file src="./src/bundles/enq_model.tfbundle"/>
