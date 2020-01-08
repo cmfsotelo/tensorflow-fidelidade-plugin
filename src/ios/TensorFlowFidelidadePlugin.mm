@@ -136,54 +136,33 @@
             NSDictionary<TIOData> *resultDict = (NSDictionary *)[self->model runOn:buffer];
             NSArray *pixelArray = resultDict[@"output"];
             
-            //Linhas superiores
+            //upper lines from the frame
             NSArray *horizontalBorder1 = [pixelArray subarrayWithRange:NSMakeRange(0, 224)];
             NSArray *horizontalBorder2 = [pixelArray subarrayWithRange:NSMakeRange(224, 224)];
             NSArray *horizontalBorder3 = [pixelArray subarrayWithRange:NSMakeRange(448, 224)];
             
-            //Linhas inferiores
+            //lines below from the frame
             NSArray *horizontalBorder4 = [pixelArray subarrayWithRange:NSMakeRange(49504, 224)];
             NSArray *horizontalBorder5 = [pixelArray subarrayWithRange:NSMakeRange(49728, 224)];
             NSArray *horizontalBorder6 = [pixelArray subarrayWithRange:NSMakeRange(49952, 224)];
             
-            
-            //Checking horizontal lines...
-            if ([self checkLines:horizontalBorder1]) {
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"BAD_IMAGE"];
-                [self.commandDelegate sendPluginResult:pluginResult callbackId:self.commandHelper.callbackId];
-            }
-            else if ([self checkLines:horizontalBorder2]){
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"BAD_IMAGE"];
-                [self.commandDelegate sendPluginResult:pluginResult callbackId:self.commandHelper.callbackId];
-            }
-            else if ([self checkLines:horizontalBorder3]){
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"BAD_IMAGE"];
-                [self.commandDelegate sendPluginResult:pluginResult callbackId:self.commandHelper.callbackId];
-            }
-            else if ([self checkLines:horizontalBorder4]){
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"BAD_IMAGE"];
-                [self.commandDelegate sendPluginResult:pluginResult callbackId:self.commandHelper.callbackId];
-            }
-            else if ([self checkLines:horizontalBorder5]){
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"BAD_IMAGE"];
-                [self.commandDelegate sendPluginResult:pluginResult callbackId:self.commandHelper.callbackId];
-            }
-            else if ([self checkLines:horizontalBorder6]){
+            //Checking detection on horizontal lines...
+            if ([self checkLines:horizontalBorder1]||[self checkLines:horizontalBorder2]||[self checkLines:horizontalBorder3]||[self checkLines:horizontalBorder4]||[self checkLines:horizontalBorder5]||[self checkLines:horizontalBorder6]) {
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"BAD_IMAGE"];
                 [self.commandDelegate sendPluginResult:pluginResult callbackId:self.commandHelper.callbackId];
             }
             
-            //Linhas Verticais da Esquerda
+            //Vertical lines from the frame left
             NSMutableArray *verticalBorder1 = [[NSMutableArray alloc] init];
             NSMutableArray *verticalBorder2 = [[NSMutableArray alloc] init];
             NSMutableArray *verticalBorder3 = [[NSMutableArray alloc] init];
             
-            //Linhas Verticais da Direita
+            //Vertical lines from the frame right
             NSMutableArray *verticalBorder4 = [[NSMutableArray alloc] init];
             NSMutableArray *verticalBorder5 = [[NSMutableArray alloc] init];
             NSMutableArray *verticalBorder6 = [[NSMutableArray alloc] init];
             
-            //Preenchimento dos arrays verticais
+            //Filling in the vertical arrays...
             for (int index = 0; index<224; index++) {
                 NSArray *line = [pixelArray subarrayWithRange:NSMakeRange(index*224, 224)];
                     [verticalBorder1 addObject:line[0]];
@@ -194,31 +173,13 @@
                     [verticalBorder6 addObject:line[223]];
             }
             
-            //Checking vertical lines...
-            if ([self checkLines:verticalBorder1]){
+            //Checking detection on vertical lines...
+            if ([self checkLines:verticalBorder1]||[self checkLines:verticalBorder2]||[self checkLines:verticalBorder3]||[self checkLines:verticalBorder4]||[self checkLines:verticalBorder5]||[self checkLines:verticalBorder6]){
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"BAD_IMAGE"];
                 [self.commandDelegate sendPluginResult:pluginResult callbackId:self.commandHelper.callbackId];
             }
-            else if ([self checkLines:verticalBorder2]){
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"BAD_IMAGE"];
-                [self.commandDelegate sendPluginResult:pluginResult callbackId:self.commandHelper.callbackId];
-            }
-            else if ([self checkLines:verticalBorder3]){
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"BAD_IMAGE"];
-                [self.commandDelegate sendPluginResult:pluginResult callbackId:self.commandHelper.callbackId];
-            }
-            else if ([self checkLines:verticalBorder4]){
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"BAD_IMAGE"];
-                [self.commandDelegate sendPluginResult:pluginResult callbackId:self.commandHelper.callbackId];
-            }
-            else if ([self checkLines:verticalBorder5]){
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"BAD_IMAGE"];
-                [self.commandDelegate sendPluginResult:pluginResult callbackId:self.commandHelper.callbackId];
-            }
-            else if ([self checkLines:verticalBorder6]){
-                pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"BAD_IMAGE"];
-                [self.commandDelegate sendPluginResult:pluginResult callbackId:self.commandHelper.callbackId];
-            } else {
+            //Nothing detected, picture ok
+            else {
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsString:@"GOOD_IMAGE"];
                 [self.commandDelegate sendPluginResult:pluginResult callbackId:self.commandHelper.callbackId];
             }
